@@ -3,7 +3,7 @@ import {
   mapActions
 } from 'vuex'
 import { themeList, addCss, removeAllCss, getReadTimeByMinute } from './book'
-import { saveLocation } from './localStorage'
+import { getBookmark, saveLocation } from './localStorage'
 
 export const ebookMixin = {
   computed: {
@@ -74,7 +74,7 @@ export const ebookMixin = {
           break
       }
     },
-    // 切换章节时更新进度
+    // 切换页面时更新进度 切换章节 换页  切换进度
     refreshLocation() {
       const currentLocation = this.currentBook.rendition.currentLocation()
       if (currentLocation && currentLocation.start) {
@@ -85,6 +85,18 @@ export const ebookMixin = {
         // 更新vuex section
         this.setSection(currentLocation.start.index)
         saveLocation(this.fileName, startCfi)
+        // 判断书签的方法
+        const bookmark = getBookmark(this.fileName)
+        if (bookmark) {
+          // 只要缓存中 存在此 书签  设置vuex isBookmark 为true
+          if (bookmark.some(item => item.cfi === startCfi)) {
+            this.setIsBookmark(true)
+          } else {
+            this.setIsBookmark(false)
+          }
+        } else {
+          this.setIsBookmark(false)
+        }
       }
     },
     display (target, cb) {
