@@ -4,6 +4,8 @@
       <ebook-reader></ebook-reader>
       <ebook-menu></ebook-menu>
       <ebook-book-mark></ebook-book-mark>
+      <ebook-header></ebook-header>
+      <ebook-footer></ebook-footer>
   </div>
 </template>
 
@@ -15,19 +17,23 @@ import EbookMenu from '../../components/ebook/EbookMenu.vue'
 import EbookBookMark from '../../components/ebook/EbookBookMark'
 import { getReadTime, saveReadTime } from '../../utils/localStorage'
 import { ebookMixin } from '../../utils/mixin'
+import EbookHeader from '../../components/ebook/EbookHeader.vue'
+import EbookFooter from '../../components/ebook/EbookFooter.vue'
 export default {
     mixins: [ebookMixin],
     components: {
         EbookReader,
         EbookTitle,
         EbookMenu,
-        EbookBookMark
+        EbookBookMark,
+        EbookHeader,
+        EbookFooter
     },
     watch: {
         offsetY(v) {
             // 菜单栏显示 或 分页未完成时不支持下拉
             if (!this.menuVisible && this.bookAvailable) {
-                if (v > 0) {
+                if (v > 0 && v < 100) {
                 this.move(v)
             } else if (v === 0) {
                 // 松开手指 设置vuex offsetY 为0 还原页面

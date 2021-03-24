@@ -110,7 +110,9 @@ const messages = {
     read: '阅读',
     listen: '听书',
     addOrRemoveShelf: '加入书架',
-    isAddedToShelf: '已加入书架'
+    isAddedToShelf: '已加入书架',
+    addedToShelf: '已加入书架',
+    removeFromShelf: '已移出书架'
   },
   speak: {
     voice: '语音朗读',
